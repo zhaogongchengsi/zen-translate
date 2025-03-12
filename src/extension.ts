@@ -1,12 +1,16 @@
-import { defineExtension, useCommand } from 'reactive-vscode'
+import { defineExtension, useActiveTextEditor, useCommand } from 'reactive-vscode'
 import { window } from 'vscode'
-import config from './configs'
 import { logger } from './utils'
+import { useTranslateRequest } from './request'
 
 export = defineExtension(() => {
   logger.info('@zen/translate Activated')
 
-  useCommand('@zen/translate.translate', async () => {
+  const request = useTranslateRequest()
+
+  const editor = useActiveTextEditor()
+
+  async function onTranslate() {
     logger.info('Command @zen/translate.translate executed')
 
     const value = await window.showInputBox({
@@ -21,7 +25,23 @@ export = defineExtension(() => {
 
     logger.info(`用户输入了: ${value}`)
 
-    window.showInformationMessage(`你输入的中文字符串是: ${value} 🎉`);
-    window.showInformationMessage(`volcano : ${config.volcano.value.access_key} ${config.volcano.value.secret_key}`);
-  })
+    try {
+      const translated = await request.tencentTranslate(value)
+      if (translated) {
+        if (editor.value) {
+          const position = editor.value.selection.active;
+          editor.value.edit((editBuilder) => {
+            editBuilder.insert(position, translated)
+          })
+        } else {
+          window.showInformationMessage(`翻译结果: ${translated}`)
+        }
+      }
+    } catch (error: any) {
+      logger.error(error.message)
+      window.showErrorMessage(error.message)
+    }
+  }
+
+  useCommand('@zen/translate.translate', onTranslate)
 })

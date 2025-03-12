@@ -1,66 +1,49 @@
-import { window } from 'vscode'
 import config from './configs'
-import got, { Got } from 'got';
-import { shallowRef, watchEffect } from 'reactive-vscode';
-import { logger } from './utils';
+import type { TextTranslateResponse } from 'tencentcloud-sdk-nodejs-tmt/tencentcloud/services/tmt/v20180321/tmt_models';
+import { tmt } from 'tencentcloud-sdk-nodejs-tmt';
 
-const urls = {
-	volcano: 'translate.volcengineapi.com',
-	google: 'translate.google.cn',
-	baidu: 'fanyi-api.baidu.com',
-}
+// const urls = {
+// 	volcano: 'https://translate.volcengineapi.com',
+// 	google: 'https://translate.google.cn',
+// 	baidu: 'https://fanyi-api.baidu.com',
+// }
 
 export function useTranslateRequest() {
-	const request = shallowRef<Got | null>(null)
-	watchEffect(() => {
-		const order = config.order.value.split(',').map((item: string) => item.trim()).find(Boolean) as keyof typeof urls
-
-		if (!order) {
-			window.showErrorMessage('请配置翻译服务')
-			return
-		}
-
-		const url = urls[order]
-
-		logger.info(`使用翻译服务: ${order} url: ${url}`)
-
-		const authConfig = {
-			volcano: config.volcano.value,
-			google: config.google.value,
-			baidu: config.baidu.value,
-		}
-
-		const autoKey = authConfig[order]
-
-		if (!autoKey.access_key || !autoKey.secret_key) {
-			window.showErrorMessage(`请配置 ${order} 的 access_key 和 secret_key`)
-			return
-		}
-
-		request.value = createTranslateRequest({
-			url,
-			access_key: autoKey.access_key,
-			secret_key: autoKey.secret_key,
-			timeout: config.timeout.value,
-		})
+	const client = new tmt.v20180321.Client({
+		credential: {
+			secretId: config.tencent.value.access_key,
+			secretKey: config.tencent.value.secret_key,
+		},
+		region: "ap-shanghai",
 	})
 
-	return request
-}
+	async function tencentTranslate(value: string) {
+		const translate = (value: string) => {
+			return new Promise<string | undefined>((resolve, reject) => {
+				if (!value.trim()) {
+					reject(new Error('请输入要翻译的文本'))
+				}
+
+				client.TextTranslate({
+					SourceText: value,
+					Source: 'auto',
+					Target: config.target.value,
+					ProjectId: 0
+				}, (error: string, rep: TextTranslateResponse) => {
+					if (error) {
+						reject(error)
+					}
+					resolve(rep.TargetText)
+				})
+
+			})
+		}
+
+		return await translate(value)
+	}
 
 
-function createTranslateRequest({ url, access_key, secret_key, timeout = 5000 }: { url: string, access_key: string, secret_key: string, timeout: number }) {
-	const client = got.extend({
-		prefixUrl: `https://${url}`,
-		headers: {
-			'Content-Type': 'application/json',
-			'AccessKey': access_key,
-			'SecretKey': secret_key,
-		},
-		timeout: {
-			response: timeout,
-			request: timeout,
-		},
-	})
-	return client
+	return {
+		tencentTranslate
+	}
 }
