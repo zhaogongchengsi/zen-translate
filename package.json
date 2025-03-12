@@ -17,7 +17,7 @@
     "Other"
   ],
   "icon": "images/icon.png",
-  "main": "./dist/extension.cjs",
+  "main": "./dist/index.cjs",
   "engines": {
     "vscode": "^1.89.0"
   },
