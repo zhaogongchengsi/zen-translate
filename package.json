@@ -1,10 +1,18 @@
 {
   "publisher": "zen",
-  "name": "@zen/translate",
+  "name": "zen-translate",
   "displayName": "translate",
   "type": "module",
+  "author": "zen <zzh1586169624@163.com>",
   "version": "0.0.1",
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhaogongchengsi/zen-translate"
+  },
+  "bugs": {
+    "url": "https://github.com/zhaogongchengsi/zen-translate/issues"
+  },
+  "license": "MIT",
   "categories": [
     "Other"
   ],
@@ -88,7 +96,9 @@
     "build": "tsup --env.NODE_ENV production --treeshake",
     "dev": "tsup --watch ./src --env.NODE_ENV development",
     "typecheck": "tsc --noEmit",
-    "vscode:prepublish": "pnpm run build"
+    "vscode:prepublish": "pnpm run build",
+    "publish": "vsce publish --no-dependencies",
+    "pack": "vsce package --no-dependencies"
   },
   "devDependencies": {
     "@types/node": "18.x",
@@ -98,7 +108,6 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "got": "^14.4.6",
     "tencentcloud-sdk-nodejs-tmt": "^4.0.1027"
   }
 }
