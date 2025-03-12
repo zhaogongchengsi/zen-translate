@@ -2,7 +2,7 @@
   "publisher": "zen",
   "name": "zen-translate",
   "displayName": "translate",
-  "type": "module",
+  "type": "commonjs",
   "author": "zen <zzh1586169624@163.com>",
   "version": "0.0.1",
   "repository": {
@@ -17,15 +17,10 @@
     "Other"
   ],
   "icon": "images/icon.png",
-  "main": "./dist/index.cjs",
+  "main": "./dist/index.js",
   "engines": {
     "vscode": "^1.89.0"
   },
-  "files": [
-    "dist",
-    "package.json",
-    "images"
-  ],
   "activationEvents": [
     "onStartupFinished"
   ],
