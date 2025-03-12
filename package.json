@@ -1,7 +1,7 @@
 {
   "publisher": "zunn",
   "name": "zen-translate",
-  "displayName": "translate",
+  "displayName": "zen-translate",
   "type": "commonjs",
   "author": "zhaogongchengsi <zzh1586169624@163.com>",
   "version": "0.0.1",
