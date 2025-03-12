@@ -1,0 +1,1 @@
+export const volcano_url = 'translate.volcengineapi.com'
