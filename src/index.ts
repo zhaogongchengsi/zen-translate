@@ -43,7 +43,7 @@ const { activate, deactivate } = defineExtension(() => {
     }
   }
 
-  useCommand('zen.translate', onTranslate)
+  useCommand('translate.insert', onTranslate)
 })
 
 export { activate, deactivate }

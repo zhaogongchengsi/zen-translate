@@ -1,7 +1,7 @@
 {
   "publisher": "zunn",
-  "name": "zen-translate",
-  "displayName": "zen-translate",
+  "name": "translate",
+  "displayName": "Zen Translate",
   "type": "commonjs",
   "author": "zhaogongchengsi <zzh1586169624@163.com>",
   "version": "0.0.1",
@@ -27,8 +27,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "zen.translate",
-        "title": "translate"
+        "command": "translate.insert",
+        "title": "翻译并插入光标处"
       }
     ],
     "configuration": {
