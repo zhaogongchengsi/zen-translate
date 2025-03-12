@@ -3,7 +3,7 @@ import { window } from 'vscode'
 import { logger } from './utils'
 import { useTranslateRequest } from './request'
 
-export = defineExtension(() => {
+const { activate, deactivate } = defineExtension(() => {
   logger.info('@zen/translate Activated')
 
   const request = useTranslateRequest()
@@ -43,5 +43,7 @@ export = defineExtension(() => {
     }
   }
 
-  useCommand('@zen/translate.translate', onTranslate)
+  useCommand('zen.translate', onTranslate)
 })
+
+export { activate, deactivate }

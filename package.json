@@ -27,7 +27,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "@zen/translate.translate",
+        "command": "zen.translate",
         "title": "translate"
       }
     ],
