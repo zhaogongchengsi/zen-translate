@@ -21,6 +21,11 @@
   "engines": {
     "vscode": "^1.89.0"
   },
+  "files": [
+    "dist",
+    "package.json",
+    "images"
+  ],
   "activationEvents": [
     "onStartupFinished"
   ],
