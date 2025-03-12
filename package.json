@@ -8,6 +8,7 @@
   "categories": [
     "Other"
   ],
+  "icon": "images/icon.png",
   "main": "./dist/extension.cjs",
   "engines": {
     "vscode": "^1.89.0"
@@ -20,18 +21,6 @@
       {
         "command": "@zen/translate.translate",
         "title": "translate"
-      }
-    ],
-    "keybindings": [
-      {
-        "command": "@zen/translate.translate",
-        "key": "ctrl+alt+t",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "@zen/translate.translate",
-        "key": "ctrl+alt+t",
-        "when": "editorFocus"
       }
     ],
     "configuration": {
