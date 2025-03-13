@@ -1,5 +1,5 @@
 import { defineExtension, useActiveTextEditor, useCommand } from 'reactive-vscode'
-import { window } from 'vscode'
+import { StatusBarAlignment, StatusBarItem, window } from 'vscode'
 import { logger } from './utils'
 import { useTranslateRequest } from './request'
 
@@ -10,8 +10,14 @@ const { activate, deactivate } = defineExtension(() => {
 
   const editor = useActiveTextEditor()
 
+  const statusBarItem: StatusBarItem = window.createStatusBarItem(StatusBarAlignment.Right, 100)
+  statusBarItem.text = '$(globe)'
+  statusBarItem.tooltip = 'Zen Translate 插件已激活'
+  statusBarItem.command = 'translate.insert'
+  statusBarItem.show()
+
   async function onTranslate() {
-    logger.info('Command @zen/translate.translate executed')
+    logger.info('translate.insert command triggered')
 
     const value = await window.showInputBox({
       prompt: '请输入要翻译的文本',
