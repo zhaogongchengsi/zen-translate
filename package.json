@@ -4,7 +4,7 @@
   "displayName": "Zen Translate",
   "type": "commonjs",
   "author": "zhaogongchengsi <zzh1586169624@163.com>",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/zhaogongchengsi/zen-translate"
@@ -29,6 +29,12 @@
       {
         "command": "translate.insert",
         "title": "翻译并插入光标处"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "translate.insert",
+        "key": "ctrl+alt+t"
       }
     ],
     "configuration": {
