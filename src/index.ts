@@ -6,6 +6,8 @@ import { useTranslateRequest } from './request'
 const { activate, deactivate } = defineExtension(() => {
   logger.info('@zen/translate Activated')
 
+  const translatedCache = new Map<string, string>()
+
   const request = useTranslateRequest()
 
   const editor = useActiveTextEditor()
@@ -24,7 +26,7 @@ const { activate, deactivate } = defineExtension(() => {
       placeHolder: '请输入要翻译的文本',
     })
 
-    if (!value) {
+    if (!value || !value.trim()) {
       logger.warn('用户取消了输入')
       return
     }
@@ -32,7 +34,16 @@ const { activate, deactivate } = defineExtension(() => {
     logger.info(`用户输入了: ${value}`)
 
     try {
-      const translated = await request.tencentTranslate(value)
+      let translated = null
+
+      if (translatedCache.has(value)) {
+        translated = translatedCache.get(value)
+      } else {
+        translated = await request.tencentTranslate(value)
+        if (translated)
+          translatedCache.set(value, translated)
+      }
+
       if (translated) {
         if (editor.value) {
           const position = editor.value.selection.active;
